@@ -1,0 +1,129 @@
+TERMINAL
+ls Listar archivos y directorios en el directorio donde te encuentras
+ls -a Listar archivos y directorios en el directorio donde te encuentras, incluyendo los archivos ocultos
+ls .. Listar los archivos y directorios en el directorio padre
+pwd Mostrar la ruta completa donde se encuentra el directorio
+cd Entrar en un directorio existente
+cd .. Regresar al directorio anterior
+cd ~ Volver al directorio raíz
+mkdir Crear un directorio nuevo (se pueden crear 2 o más directorios a la vez)
+    Ej. mkdir projeto1 projeto2
+mkdir -p Crear un directorio nuevo con subdirectorios
+    Ej. mkdir projeto1/desarrollo
+rm -r Remover directorios y/o archivos
+mv Mover o renombrar directorios
+cp Copiar archivos
+touch Crear un archivo vacío
+echo Mostrar un mensaje en la consola
+echo 'mensaje'> nombre_archivo.txt Crea un archivo con contenido mensaje
+echo 'mensaje'>> nombre_archivo.txt Agrega una línea con un nuevo mensaje o comando al contenido del archivo
+cat Permite escribir varias líneas y mostrando las líneas escritas. Para salir se usa ctrl+d
+cat nombre_archivo.txt Leer en la consola el contenido del archivo mencionado
+cat > nombre_archivo.txt Crear un archivo con la lista de comandos o líneas que son escritas dentro de ese cat.
+cat >> nombre_archivo.txt Adicionar comandos o líneas a un archivo creado anteriormente.
+help comando ayuda sobre el comando solicitado
+clear Limpiar la pantalla
+history Muestra los comandos que fueron hechos en el terminal
+history n Muestra los últimos n comandos utilizados
+history nombre_archivo.txt Crea un archivo con todos los comandos que fueron utilizados
+history -c Eliminar el histórico
+
+GIT
+git init Iniciar git en el diretorio actual
+
+Configuración
+git config --global user.name 'mi nombre' Configurar el nombre de usuario global en Git
+git config user.name Muestra el nombre del usuario actual de Git.
+git config --global user.email 'mi email' Configurar el email del usuario global en Git
+git config user.email Muestra el email del usuario actual de Git.
+
+Uso de Guit
+git status Ver el estado actual de git. Muestra el usuario que está usando git y el estado de los archivos que están en el directorio donde fue iniciado git. El estatus puede ser:
+    - Untracked (Sin seguimiento)
+    - Unmodified (Sin modificaciones)
+    - Modify (Modificado)
+    - Stage (Preparado). En este caso se hace un commit(envío de la versión actual).
+
+Stage
+git add nombredelarchivo Agregar un archivo específico al Stage o añadir este contenido a la próxima confirmación
+git add. Agregar todos los archivos al Stage
+
+Modificar archivos
+echo 'mensaje'>> nombre_archivo.txt Agrega una línea con un nuevo mensaje o comando al contenido del archivo. En este momento el archivo entra automátocamente en modified (modificado)
+
+Retirar archivos de Stage
+git rm --cached archivo Elimina un archivo no rastreado del Stage
+git restore --staged archivo Elimina un archivo modificado del Stage
+git restore --staged . Elimina todos los archivos modificado del Stage.
+
+De Stage a Git
+git commit -m 'Descripción' Envía el archivo preparado a Git con un mensaje descriptivo
+git commit -am 'Descripción' Hacer un commit de todoslos archivos que están siendo rastreados.
+
+Histórico
+git log Ver histórico de commits
+git log pretty=oneline Mostrar el histórico de commits cada uno en una sola línea
+git log stat Ver informaciones más específicas sobre los commits
+git log -p Mostrar Todo el histórico detallado con contenidos de los commits
+git log -p -2 Mostrar los últimos dos commits detallados con sus contenidos
+git log --since=n.tempo Arroja los commits del tiempo n en minutos, días, horas, semanas, meses.
+    Ej. git log --since=2.minutes
+        git log --since=3.weeks
+git log --author='Nombre del Autor' Mostrar los commits por nombre de autor. Es importante que el histórico es sensible a las mayúsculas.
+
+Volver al primer commit
+git reset --soft HEAD~ El último archivo usado queda en unstaged (archivos con diferencias)
+git reset --hard HEAD~ El último archivo usado  vuelve al snapshot
+
+Volver a un commit específico
+git reset --soft [hash]
+git reset --hard [hash]
+
+Recordar siempre las referencias. 
+Ej. git log --pretty=online -p -2
+SE RECOMIENDA NO USAR HARD
+
+Moverse entre commit
+Head (Cabeza) es un apuntador que va al commit anterior (commit padre). Para ello se usa la til (~).
+git checkout HEAD~2
+git checkout HEAD~~
+Cualquiera de estas dos opciones vuelve atrás dos commits.
+Se puede usar este comando para ir a cada commit disponible o para ir a master.
+
+git show Ver los documentos que están dentro de un commit.
+
+echo '.vscode/'> .gitignore Ignorar archivos que están dentro de una carpeta y no nos interesa compartir
+echo 'pessoal.txt'> .gitignore
+
+Branches
+git branch: te permite crear, enumerar y eliminar ramas, así como cambiar su nombre. No te permite cambiar entre ramas o volver a unir un historial bifurcado. Por este motivo, git branch está estrechamente integrado con los comandos git checkout y git merge.
+
+Opciones comunes
+git branch Ver todas las ramas (branches) del repositorio. Es similar a git branch --list.
+
+git checkout -b 'nombre_de_la_rama' Crear una nueva rama y entrar de una vez en ésta.
+
+git checkout -b nueva antígua Crear una rama nueva basada en otra, es decir con todos sus archivos commitados.
+
+git checkout nombredelarama Moverse entre ramas
+
+git branch -d rama Elimina la rama especificada. Esta es una operación segura, ya que Git evita que elimines la rama si tiene cambios que aún no se han fusionado. No se puede borrar una rama estando dentro de ésta.
+
+git branch -D rama Fuerza la eliminación de la rama especificada, incluso si tiene cambios sin fusionar. Este comando lo puedes usar si quieres eliminar de forma permanente todas las confirmaciones asociadas con una línea concreta de desarrollo.
+
+git branch -m rama Cambia el nombre de la rama actual a ＜branch＞.
+
+git branch -a Enumera todas las ramas remotas.
+
+Mezclar Branches
+
+Usando merge. Desde la rama base escribir:
+git merge ramaafundir Hace una copia de la ramaafundir con la rama base, conservando ambas ramas con sus commits.
+git log --pretty=oneline --graph Permite ver las ramas fusionadas de forma gráfica.
+Ventajas: Operación no destructiva; Histórico real
+Desventajas: Commit extra; Histórico recargado
+
+Usado rebase. Desde la rama base escribir:
+git rebase ramaareescribir Reescribe la rama base con los archivos de la rama base.
+Ventajas: Sin commits extra; Histórico lineal
+Desventajas: Pierde el orden cronológico; puede provocar conflictos con otros desarrolladores.
